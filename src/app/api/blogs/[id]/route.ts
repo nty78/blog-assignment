@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic'; 
+
 // ฟังก์ชัน GET: สำหรับดึงข้อมูลบทความเดิมมาแปะในฟอร์ม
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
@@ -33,7 +35,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
     return NextResponse.json({ message: 'อัปเดตสำเร็จ', blog: updatedBlog });
   } catch (error) {
-    console.error("PUT Error:", error); // 👈 เติมบรรทัดนี้เข้ามาเช่นกัน
+    console.error("PUT Error:", error); 
     return NextResponse.json({ error: 'เกิดข้อผิดพลาด (อาจจะตั้งชื่อ URL Slug ซ้ำกับบทความอื่น)' }, { status: 500 });
   }
 }
