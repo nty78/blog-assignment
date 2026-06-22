@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     // 1. เช็กก่อนว่ามี Admin ในระบบหรือยัง จะได้ไม่สร้างซ้ำซ้อน
