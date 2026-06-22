@@ -18,7 +18,7 @@ export async function GET(request: NextRequest, context: SafeContext) {
     if (!blog) return NextResponse.json({ error: 'ไม่พบบทความ' }, { status: 404 });
 
     return NextResponse.json(blog);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
   }
 }
@@ -45,6 +45,6 @@ export async function PUT(request: NextRequest, context: SafeContext) {
 
     return NextResponse.json({ message: 'อัปเดตสำเร็จ', blog: updatedBlog });
   } catch {
-  return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
-}
+    return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
+  }
 }
