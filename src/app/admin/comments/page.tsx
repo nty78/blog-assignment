@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ManageCommentsPage() {
   // 1. ด่านตรวจความปลอดภัย: ถ้าไม่มี Session ให้เด้งกลับไปหน้า Login
   if (!cookies().has('admin_session')) {
