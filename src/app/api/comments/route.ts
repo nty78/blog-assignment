@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic'; 
+
 export async function POST(request: Request) {
   try {
     const { blogId, senderName, content } = await request.json();
 
-    //  Back-end Validation: ป้องกันการยิง API ข้าม Front-end
+    // Back-end Validation: ป้องกันการยิง API ข้าม Front-end
     const regex = /^[ก-๙0-9\s]+$/;
     if (!regex.test(content)) {
       return NextResponse.json(
