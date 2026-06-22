@@ -44,7 +44,7 @@ export async function PUT(request: NextRequest, context: SafeContext) {
     });
 
     return NextResponse.json({ message: 'อัปเดตสำเร็จ', blog: updatedBlog });
-  } catch (error) {
-    return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
-  }
+  } catch {
+  return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
+}
 }
