@@ -35,7 +35,7 @@ export default async function BlogDetailPage({
           </div>
         </header>
 
-        {/*  รูปภาพปก (Cover Image) 1 รูป */}
+        {/* รูปภาพปก (Cover Image) 1 รูป */}
         <img
           src={blog.coverImage}
           alt={blog.title}
@@ -92,6 +92,7 @@ export default async function BlogDetailPage({
       </div>
     );
   } catch (error) {
+    console.error("Page Error:", error); // 👈 แก้ไขตรงนี้ให้ระบบเห็นว่ามีการใช้งานตัวแปร error
     return notFound();
   }
 }
