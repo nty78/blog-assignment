@@ -6,13 +6,16 @@ export const dynamic = 'force-dynamic';
 // ฟังก์ชัน GET: สำหรับดึงข้อมูลบทความเดิมมาแปะในฟอร์ม
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
+    const blogId = Number(params.id);
+    if (isNaN(blogId)) return NextResponse.json({ error: 'ID ไม่ถูกต้อง' }, { status: 400 }); 
+
     const blog = await prisma.blog.findUnique({
-      where: { id: Number(params.id) }
+      where: { id: blogId }
     });
     if (!blog) return NextResponse.json({ error: 'ไม่พบบทความ' }, { status: 404 });
     return NextResponse.json(blog);
   } catch (error) {
-    console.error("GET Error:", error); // 👈 เติมบรรทัดนี้เข้ามาให้ Vercel สบายใจ
+    console.error("GET Error:", error);
     return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
   }
 }
@@ -20,6 +23,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
 // ฟังก์ชัน PUT: สำหรับอัปเดตข้อมูลใหม่ลง Database
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
+    const blogId = Number(params.id);
+    if (isNaN(blogId)) return NextResponse.json({ error: 'ID ไม่ถูกต้อง' }, { status: 400 }); 
+
     const body = await request.json();
     const { title, slug, excerpt, content, coverImage, additionalImages } = body;
 
@@ -29,13 +35,13 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     }
 
     const updatedBlog = await prisma.blog.update({
-      where: { id: Number(params.id) },
+      where: { id: blogId },
       data: { title, slug, excerpt, content, coverImage, additionalImages }
     });
 
     return NextResponse.json({ message: 'อัปเดตสำเร็จ', blog: updatedBlog });
   } catch (error) {
-    console.error("PUT Error:", error); 
+    console.error("PUT Error:", error);
     return NextResponse.json({ error: 'เกิดข้อผิดพลาด (อาจจะตั้งชื่อ URL Slug ซ้ำกับบทความอื่น)' }, { status: 500 });
   }
 }
