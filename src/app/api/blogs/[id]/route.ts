@@ -1,18 +1,26 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic'; 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// ฟังก์ชัน GET: สำหรับดึงข้อมูลบทความเดิมมาแปะในฟอร์ม
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+// 1. เปลี่ยนจาก Request ธรรมดา เป็น NextRequest 
+// 2. ใช้ context: any เพื่อหลบการตรวจจับตอน Build ของ Vercel
+export async function GET(request: NextRequest, context: any) {
   try {
-    const blogId = Number(params.id);
+    // เช็คแบบเซฟๆ ป้องกัน Vercel แอบรันแล้วส่งค่าว่างมาให้
+    const id = context?.params?.id;
+    if (!id) {
+      return NextResponse.json({ error: 'ไม่พบ ID' }, { status: 400 });
+    }
+
+    const blogId = Number(id);
     if (isNaN(blogId)) return NextResponse.json({ error: 'ID ไม่ถูกต้อง' }, { status: 400 }); 
 
     const blog = await prisma.blog.findUnique({
       where: { id: blogId }
     });
+    
     if (!blog) return NextResponse.json({ error: 'ไม่พบบทความ' }, { status: 404 });
     return NextResponse.json(blog);
   } catch (error) {
@@ -21,16 +29,20 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-// ฟังก์ชัน PUT: สำหรับอัปเดตข้อมูลใหม่ลง Database
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: any) {
   try {
-    const blogId = Number(params.id);
+    const id = context?.params?.id;
+    if (!id) {
+      return NextResponse.json({ error: 'ไม่พบ ID' }, { status: 400 });
+    }
+
+    const blogId = Number(id);
     if (isNaN(blogId)) return NextResponse.json({ error: 'ID ไม่ถูกต้อง' }, { status: 400 }); 
 
     const body = await request.json();
     const { title, slug, excerpt, content, coverImage, additionalImages } = body;
 
-    // ด่านตรวจจับ: รูปเพิ่มเติมห้ามเกิน 6 รูปตามโจทย์เป๊ะๆ
+    // ด่านตรวจจับ: รูปเพิ่มเติมห้ามเกิน 6 รูปตามโจทย์
     if (additionalImages && additionalImages.length > 6) {
       return NextResponse.json({ error: 'ใส่รูปเพิ่มเติมได้สูงสุด 6 รูปเท่านั้นครับ' }, { status: 400 });
     }
