@@ -3,7 +3,7 @@
 โปรเจกต์นี้เป็นส่วนหนึ่งของแบบทดสอบตำแหน่ง Software Developer (ส่วนที่ 2: Technical Assignment) 
 พัฒนาระบบ Blog ที่มีฟังก์ชันการจัดการเนื้อหา (CMS) และระบบแสดงความคิดเห็นครบถ้วน
 
-🌐 **Live Demo:** [รอใส่ลิงก์ Vercel ของคุณที่นี่]
+🌐 **Live Demo:** [https://blog-assignment-kla4.vercel.app](https://blog-assignment-kla4.vercel.app)
 
 ## 🛠️ Tech Stack
 * **Framework:** Next.js (App Router)
@@ -25,7 +25,7 @@
 
 **Clone the repository:**
    ```bash
-   git clone [รอใส่ลิงก์ GitHub ของคุณ]
+   git clone [https://github.com/nty78/blog-assignment](https://github.com/nty78/blog-assignment)
    cd metier-blog-assignment
 
 1. Install dependencies:
