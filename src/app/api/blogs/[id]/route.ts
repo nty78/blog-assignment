@@ -10,6 +10,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     if (!blog) return NextResponse.json({ error: 'ไม่พบบทความ' }, { status: 404 });
     return NextResponse.json(blog);
   } catch (error) {
+    console.error("GET Error:", error); // 👈 เติมบรรทัดนี้เข้ามาให้ Vercel สบายใจ
     return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
   }
 }
@@ -32,6 +33,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
     return NextResponse.json({ message: 'อัปเดตสำเร็จ', blog: updatedBlog });
   } catch (error) {
+    console.error("PUT Error:", error); // 👈 เติมบรรทัดนี้เข้ามาเช่นกัน
     return NextResponse.json({ error: 'เกิดข้อผิดพลาด (อาจจะตั้งชื่อ URL Slug ซ้ำกับบทความอื่น)' }, { status: 500 });
   }
 }

@@ -35,7 +35,7 @@ export default async function BlogDetailPage({
           </div>
         </header>
 
-        {/* 🖼️ รูปภาพปก (Cover Image) 1 รูป */}
+        {/*  รูปภาพปก (Cover Image) 1 รูป */}
         <img
           src={blog.coverImage}
           alt={blog.title}

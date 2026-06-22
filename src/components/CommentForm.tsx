@@ -45,6 +45,7 @@ export default function CommentForm({ blogId }: { blogId: number }) {
         setError(data.error || "เกิดข้อผิดพลาดในการส่งข้อมูล");
       }
     } catch (err) {
+      console.error("Comment Submit Error:", err); 
       setError("ระบบมีปัญหา กรุณาลองใหม่อีกครั้ง");
     } finally {
       setIsSubmitting(false);
