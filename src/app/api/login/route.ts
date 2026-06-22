@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma"; // ปรับ path ให้ตรงกับที่เก็บไฟล์ prisma ของคุณ
+import prisma from "@/lib/prisma"; 
 import { cookies } from "next/headers";
+
+export const dynamic = 'force-dynamic'; 
 
 export async function POST(request: Request) {
   try {
