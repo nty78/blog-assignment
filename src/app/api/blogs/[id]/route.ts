@@ -4,11 +4,11 @@ import prisma from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// 1. เปลี่ยนจาก Request ธรรมดา เป็น NextRequest 
-// 2. ใช้ context: any เพื่อหลบการตรวจจับตอน Build ของ Vercel
-export async function GET(request: NextRequest, context: any) {
+// สร้าง Type ใหม่ขึ้นมาแทน any เพื่อให้ตำรวจ ESLint พอใจครับ 👮‍♂️
+type SafeContext = { params?: { id?: string } };
+
+export async function GET(request: NextRequest, context: SafeContext) {
   try {
-    // เช็คแบบเซฟๆ ป้องกัน Vercel แอบรันแล้วส่งค่าว่างมาให้
     const id = context?.params?.id;
     if (!id) {
       return NextResponse.json({ error: 'ไม่พบ ID' }, { status: 400 });
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest, context: any) {
   }
 }
 
-export async function PUT(request: NextRequest, context: any) {
+export async function PUT(request: NextRequest, context: SafeContext) {
   try {
     const id = context?.params?.id;
     if (!id) {
@@ -55,6 +55,6 @@ export async function PUT(request: NextRequest, context: any) {
     return NextResponse.json({ message: 'อัปเดตสำเร็จ', blog: updatedBlog });
   } catch (error) {
     console.error("PUT Error:", error);
-    return NextResponse.json({ error: 'เกิดข้อผิดพลาด (อาจจะตั้งชื่อ URL Slug ซ้ำกับบทความอื่น)' }, { status: 500 });
+    return NextResponse.json({ error: 'เกิดข้อผิดพลาด' }, { status: 500 });
   }
 }
